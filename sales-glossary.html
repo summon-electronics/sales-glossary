@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summon Electronics – Sales Terms & Product Knowledge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#eef2f7;color:#1f2937;line-height:1.5}
+header{background:linear-gradient(135deg,#0f2747,#1e4a7d);color:#fff;padding:28px 20px 22px;text-align:center}
+header h1{font-size:1.7em;letter-spacing:.3px}
+header p{opacity:.85;margin-top:4px;font-size:.95em}
+.controls{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #d6dde8;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.row{display:flex;gap:10px;align-items:center;max-width:1100px;margin:0 auto}
+#search{flex:1;padding:12px 14px;font-size:16px;border:2px solid #1e4a7d;border-radius:10px}
+#search:focus{outline:none;border-color:#f59e0b}
+.btn{padding:12px 16px;border:none;border-radius:10px;background:#f59e0b;color:#0f2747;font-weight:700;cursor:pointer;white-space:nowrap}
+.btn:hover{background:#fbbf24}
+.chips{display:flex;gap:8px;overflow-x:auto;max-width:1100px;margin:10px auto 0;padding-bottom:4px}
+.chip{flex:0 0 auto;padding:7px 13px;border-radius:20px;border:1px solid #c5d0e0;background:#f8fafc;cursor:pointer;font-size:13px;color:#334155}
+.chip.active{background:#0f2747;color:#fff;border-color:#0f2747}
+.meta{max-width:1100px;margin:8px auto 0;font-size:12px;color:#64748b}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 40px}
+section{margin-bottom:28px}
+section h2{font-size:1.25em;color:#0f2747;border-bottom:3px solid #f59e0b;padding-bottom:6px;margin-bottom:14px}
+.intro{font-size:.9em;color:#475569;margin:-6px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.card{background:#fff;border-radius:10px;padding:13px 15px;border-left:4px solid #1e4a7d;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card.hot{border-left-color:#dc2626}
+.term{font-weight:700;color:#0f2747;font-size:1em}
+.badge{display:inline-block;background:#dc2626;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.def{margin-top:4px;font-size:.92em}
+.use{margin-top:6px;font-size:.86em;color:#166534;background:#f0fdf4;border-radius:6px;padding:5px 8px}
+.use:before{content:"💬 "}
+.taggroup{background:#fff;border-radius:10px;padding:13px 15px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.taggroup h3{font-size:.95em;color:#1e4a7d;margin-bottom:8px}
+.tag{display:inline-block;background:#e8eef7;color:#0f2747;border-radius:16px;padding:5px 11px;margin:3px;font-size:.85em}
+mark{background:#fde68a;padding:0 2px;border-radius:3px}
+.empty{text-align:center;color:#64748b;padding:40px}
+footer{text-align:center;font-size:12px;color:#64748b;padding:0 16px 30px}
+@media print{
+  body{background:#fff}
+  header{background:#0f2747 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:16px}
+  .controls{display:none}
+  main{padding:10px 0}
+  .grid{grid-template-columns:1fr 1fr;gap:8px}
+  .card,.taggroup{box-shadow:none;border:1px solid #cbd5e1;break-inside:avoid;page-break-inside:avoid}
+  .use{background:none;padding:2px 0}
+  section{break-before:auto}
+  section h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ Summon Electronics Sales Glossary</h1>
+  <p>Terms, acronyms, product knowledge & keywords for reps, AEs and marketing</p>
+</header>
+
+<div class="controls">
+  <div class="row">
+    <input id="search" type="text" placeholder="🔍 Search any term (e.g. line card, EAU, MSL, broker)…">
+    <button class="btn" id="printBtn">⬇ Save as PDF</button>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="meta" id="meta"></div>
+</div>
+
+<main id="main"></main>
+<footer>Version 2.0 · October 2026 · Tip: on desktop, “Save as PDF” opens your print dialog — choose “Save as PDF” as the destination.</footer>
+
+<script>
+const DATA = [
+{id:"acronyms",name:"🎯 Core Acronyms",intro:"The alphabet soup you’ll hear on every call. Learn these first.",items:[
+["RFQ – Request for Quote","Customer sends part numbers, quantities and need dates and asks for price and availability.","The moment a lead becomes an opportunity. Respond fast — speed wins spot buys.",1],
+["RFI / RFP – Request for Information / Proposal","Larger, formal sourcing events, often for annual or stocking business.","Usually means multi-line, longer-term business. Ask about EAU and timeline."],
+["PO – Purchase Order","The customer’s formal, binding commitment to buy.","No PO, no order. Check the PO’s qty, price, dock date and terms before accepting."],
+["BOM – Bill of Materials","Every part needed to build an assembly — the ingredients for the cake.","Ask for the full BOM, not just the shortage. That’s how you find annual usage."],
+["AVL / ASL – Approved Vendor / Supplier List","The list of suppliers purchasing is allowed to buy from.","Getting on the AVL is the first real milestone. Ask: “What does it take to become a vendor?”"],
+["AML – Approved Manufacturer List","Which brands are approved for each part on the BOM.","Tells you whether a cross is possible without engineering sign-off."],
+["MPN – Manufacturer Part Number","The brand’s official part number.","Quote the exact MPN including suffixes — a suffix can change packaging, temp grade or RoHS status."],
+["IPN / CPN – Internal / Customer Part Number","The customer’s own number for a part. Never the same as the MPN.","Put both on quotes and invoices so their receiving dock can match it."],
+["MOQ – Minimum Order Quantity","Smallest quantity a source will sell (e.g. a full reel of 2,500).","Big pain for prototypes and low-volume builds. Stock on the shelf in smaller quantities solves it."],
+["MPQ / SPQ – Minimum / Standard Package Quantity","The factory pack size: one reel, tray or tube.","Quoting in SPQ multiples keeps factory packaging intact and avoids repack costs."],
+["EAU – Estimated Annual Usage","How many of a part the customer uses per year.","The key number for a stocking program: we hold their annual usage and ship on their schedule.",1],
+["UOM – Unit of Measure","Each, reel, tray, foot, etc.","Confirm UOM on every line. “1 reel” vs “1 each” mistakes kill margin."],
+["Qty – Quantity","Amount needed or available.","Always pair with UOM."],
+["MRP / ERP","Material Requirements Planning / Enterprise Resource Planning software (SAP, Oracle, NetSuite, Epicor, etc.) that tells buyers what to buy and when.","Ask: “When does your MRP run?” Shortages show up right after — that’s when to call."],
+["PPV – Purchase Price Variance","Difference between the budgeted (standard) cost and the actual price paid.","Buyers are often measured on PPV. Saving them money makes them look good."],
+["PCB / PCBA","Printed Circuit Board (bare) / Printed Circuit Board Assembly (populated with parts).","CMs build PCBAs. The parts that go on them are what we sell."],
+["NPI – New Product Introduction","Taking a new design into production.","Early access to a new BOM. Engineers are involved here."],
+["ECO / ECN – Engineering Change Order / Notice","A formal design change.","Changes the BOM — could create a new line for you or remove one."],
+["PCN / PDN – Product Change / Discontinuance Notice","Manufacturer announces a change to a part, or that it’s being discontinued.","A PDN starts the EOL clock — customers need last-time-buy help or alternates."],
+["EOL – End of Life","Part is being discontinued by the manufacturer.","Core Summon territory: franchise distributors run dry, we can still find and stock it.",1],
+["LTB – Last Time Buy","Final ordering window before a part goes EOL.","Big one-time orders, and a chance to hold stock for customers after the window closes."],
+["NRND – Not Recommended for New Designs","Still produced, but on its way out.","Early warning a part will become hard to find."],
+["NCNR – Non-Cancellable, Non-Returnable","Order can’t be cancelled or returned once placed.","Standard on hard-to-find buys. State it clearly on the quote."],
+["RMA – Return Merchandise Authorization","Approval to return parts.","Know the return policy before you quote."],
+["CoC – Certificate of Conformance","Document stating parts meet spec; may come from the manufacturer (OCM CoC) or the distributor.","Ask early how important CoCs are — it changes how we source."],
+["COO – Country of Origin","Where the part was made.","Needed on invoices and for tariff/export questions."],
+["ETA – Estimated Time of Arrival","When parts are expected to arrive.","Never guess an ETA. A missed promise costs more than an honest longer date."],
+["FFF – Form, Fit, Function","A replacement matching size, pinout and performance.","The standard for a drop-in cross."],
+["DM – Decision Maker","The person who can approve the purchase.","Map every DM at an account, not just one buyer."],
+["ICP – Ideal Customer Profile","OEMs, contract manufacturers, transit organizations and similar businesses with recurring buying and identifiable procurement/engineering contacts.","Hobbyists and one-off buyers aren’t our ICP — don’t build pipeline on them."]
+]},
+{id:"parts",name:"📦 Parts & Packaging",intro:"How parts are described, packaged and specified.",items:[
+["Line Card","List of manufacturers, brands and product categories a distributor offers.","Opener: “Can I send our line card to see where we fit?” Lead with brands they struggle to get.",1],
+["Commodity","A category of parts: passives, actives/semiconductors, interconnect, electromechanical, power, optoelectronics.","Buyers are often split by commodity — find the buyer who owns the brand you’re pitching."],
+["Passives","Resistors, capacitors, inductors — parts that don’t amplify or control power.","High volume, low price. Great fit for stocking programs."],
+["Actives / Semiconductors","ICs, microcontrollers, transistors, diodes — parts that control current.","Where most allocation and counterfeit risk lives."],
+["Interconnect / Electromechanical","Connectors, cable assemblies, relays, switches.","Lots of niche brands and long lead times — strong independent territory."],
+["Tape & Reel (T&R)","Parts on carrier tape wound on a reel (often 2,500–10,000 pcs) for pick-and-place machines.","Production lines want full reels."],
+["Cut Tape","A strip cut from a reel.","Perfect for prototypes. Some CMs need leader added to run it on machines."],
+["Re-reel","Cut tape put back onto a reel with leader and trailer.","Lets a CM run small quantities on SMT machines."],
+["Tray / Tube / Bulk","Trays for larger ICs (BGA, QFP), tubes for through-hole and SOIC, bulk = loose.","Ask packaging requirements before quoting."],
+["Package / Footprint","Physical body style: 0402, 0603, 0805 for passives; SOIC, TSSOP, QFN, QFP, BGA for ICs.","Different package = won’t fit the board."],
+["SMT / SMD","Surface Mount Technology / Device — soldered onto the board surface.","Most modern assembly."],
+["Through-Hole (THT)","Leads go through holes in the board.","Older designs, power parts and connectors."],
+["Date Code (D/C)","Manufacture date on the part or label. Most brands print YYWW (1922 = week 22 of 2019); some use WWYY. Always confirm.","Many customers want parts under 2 years old. Ask: “How important are recent date codes?”"],
+["Lot Code","Manufacturer’s production batch ID.","Ties to traceability and recalls."],
+["MSL – Moisture Sensitivity Level","Rating from 1 (not sensitive) to 6 (most sensitive).","MSL 3+ must ship dry-packed or be baked before assembly."],
+["Dry Pack / MBB","Moisture barrier bag with desiccant and humidity indicator card.","An opened or expired pack can mean baking — expect quality questions."],
+["ESD","Electrostatic discharge — static that can damage parts.","Always handle and ship in ESD-safe packaging."],
+["RoHS / Lead-Free","EU rule restricting lead and other hazardous substances.","Confirm RoHS vs leaded on every line — the suffix often tells you."],
+["Leaded (SnPb)","Contains tin-lead plating or solder.","Some military/aerospace builds require leaded; EU products and many medical products can’t use it."],
+["Datasheet","Manufacturer’s spec document for a part.","The source of truth for crosses."],
+["Lifecycle Status","Active, NRND, Last Time Buy, Obsolete.","Check before quoting. Obsolete = harder to find, better margin."],
+["Cross / Alternate","Equivalent part from a different manufacturer or MPN.","Engineers approve crosses. Great cost-down or availability play."],
+["Drop-in / Pin-Compatible","Replacement that needs no board change.","The easiest cross to get approved."],
+["Tolerance","Allowed variation from the rated value (±1%, ±5%).","A cross must match or beat it."],
+["Temperature Grade","Commercial (0 to 70°C), Industrial (-40 to 85°C), Automotive, Military.","Never quote a lower grade than specified."],
+["Voltage / Power Rating","Maximum voltage or wattage a part can handle.","Must meet or exceed the original."]
+]},
+{id:"orders",name:"💰 Orders, Pricing & Terms",intro:"The money side of every deal.",items:[
+["Quote / Quotation","Price, qty, date code, lead time, terms and validity offered to the customer.","Always include MPN, qty, D/C, lead time, validity and NCNR if it applies."],
+["Quote Validity","How long a quoted price holds.","Keep it short on volatile or allocated parts."],
+["Target Price","What the buyer wants to pay.","Ask “What’s your target?” — saves quoting blind."],
+["Price Breaks","Lower unit price at higher quantities.","Show breaks to encourage a bigger buy or a blanket PO."],
+["Spot Buy","One-time, usually urgent purchase.","Shortages. The margin is in speed and certainty."],
+["Blanket PO / Scheduled Order","One PO for a total quantity with multiple scheduled ship dates.","Locks in recurring revenue — the foundation of a stocking program."],
+["Release","A shipment pulled against a blanket PO.","Track releases so you never miss a scheduled date."],
+["Stocking Program","We buy and hold a customer’s annual usage on brands they struggle to get, and ship on their schedule.","Our core offer vs Digi-Key and Mouser — stock on our shelf when theirs is empty.",1],
+["Forecast","Customer’s expected future demand.","A forecast lets us stock ahead and quote better."],
+["Pull-in / Push-out","Customer moves a delivery earlier / later.","Pull-ins are urgent. Push-outs affect our inventory plans."],
+["Backorder","Ordered but not available to ship yet.","Communicate proactively — silence loses accounts."],
+["Partial Shipment","Shipping some of the quantity now, the rest later.","Ask whether partials are allowed — often they unblock a build."],
+["Lead Time","Time from order to shipment. Factory lead time vs stock-on-hand.","“Digi-Key shows 26 weeks” is your opening for stock on the shelf."],
+["Dock Date","Date the parts must be at the customer’s dock.","Miss it and production can stop.",1],
+["Invoice","Bill sent when parts ship.","A customer can’t invoice their own product until every part arrives — that’s shortage pain."],
+["Net Terms (Net 30 / 60 / 90)","Days the customer has to pay after invoice.","Longer terms help their cash flow — a real selling point."],
+["2/10 Net 30 (Discount Terms)","2% discount if paid within 10 days, otherwise full amount due in 30.","Ask: “Does your company take discount terms?”"],
+["Prepay / CIA / COD","Cash in advance / cash on delivery.","For new or unverified accounts."],
+["Credit Application","Form a customer completes to get terms.","Send it early so terms don’t delay the first order."],
+["Vendor Setup Packet","W-9, banking, certifications and quality survey needed to become an approved supplier.","Have it ready to send the same day."],
+["Supplier Survey / Quality Questionnaire","Customer’s checklist on your quality system.","Our AS9120 and ISO 9001 certifications and inspection lab answer most of it."],
+["Cash Flow","Money on hand. No cash = no parts = no production.","Terms and holding stock for them both ease cash flow.",1],
+["Consignment","Inventory at the customer’s site that we own until they use it.","Deep partnership — use selectively."],
+["VMI – Vendor Managed Inventory","We monitor their stock levels and replenish automatically.","Sticky, recurring business."],
+["Margin / GP$","Gross profit = sell price minus cost. GP$ is the total dollars earned.","GP$ per human-hour is the metric the business runs on."],
+["Incoterms","Shipping rules on who pays and who holds risk: EXW, FCA, FOB, DDP, etc.","Clarify on international orders."],
+["FOB Origin vs Destination","Where ownership and risk transfer to the buyer.","Affects who files a claim if a shipment is damaged."],
+["Prepay & Add / Customer Account","We pay freight and bill it, or ship on the customer’s FedEx/UPS account.","Free or discounted overnight shipping can win shortage deals."]
+]},
+{id:"supply",name:"🏭 Supply Chain & Production",intro:"How customers build — and where it breaks.",items:[
+["Shortage","Not enough of a part to finish a build. One missing part = can’t ship = can’t invoice.","The #1 pain we solve.",1],
+["Shortage List","List of short parts, usually pulled from MRP.","Ask: “Can you send your shortage list?” — the best way into an account.",1],
+["Line Down","Production stopped because of a missing part.","Drop everything.",1],
+["Revenue Not Shipping","Finished product stuck because of one or two parts.","Talk to sales and program managers about this — it’s their pain too."],
+["Allocation","Manufacturer limits how much each customer or distributor gets.","Franchise distributors are stuck. Independents can source globally."],
+["Excess Inventory","Parts a customer owns but no longer needs.","Ask: “Who handles your excess?” Buying it back builds goodwill and supply."],
+["Turnkey","The CM buys all parts and builds the product.","Call the CM, not the OEM."],
+["Consigned / Kitted","OEM buys the parts and ships a kit to the CM.","Call the OEM, not the CM."],
+["Partial Turnkey","CM buys some parts; OEM consigns others (often critical ICs).","Find out who buys which lines."],
+["Assembly Only","CM only assembles parts provided to it.","The CM won’t buy — go to the OEM."],
+["Prototype","Small run, usually 10 boards or fewer.","MOQ pain. Small quantities from stock win here."],
+["Production","Volume builds, usually 100+ boards.","Price, consistency and on-time delivery matter most."],
+["Quick Turn","Very fast build, usually 1–2 weeks.","Speed and overnight shipping win."],
+["Box Build","Full product assembly including enclosure and cables.","Broader BOMs: hardware, cables, connectors."],
+["Safety Stock / Buffer Stock","Extra inventory to cover surprises.","A stocking program is outsourced safety stock."],
+["Expedite","Rushing an order.","Expediters can cancel and move orders if we don’t respond."],
+["Grey Market / Open Market","Parts resold outside authorized channels.","Can be safe with proper inspection; risky without it."],
+["Traceability","Paper trail from the manufacturer through every owner.","Answer it when asked — don’t lead with it."],
+["DMSMS","Diminishing Manufacturing Sources and Material Shortages — the defense term for obsolescence.","Legacy programs are full of obsolete parts we can find."],
+["Kanban","Pull-based replenishment using bins or signals.","Pairs naturally with a stocking program."],
+["EDI","Electronic Data Interchange — automated POs and invoices.","Larger customers may require it."]
+]},
+{id:"people",name:"👥 Customers & Stakeholders",intro:"Who buys, who influences, and how to approach them.",items:[
+["OEM – Original Equipment Manufacturer","Designs and owns the product.","Controls specs and the AML. May buy parts or let the CM buy."],
+["CM / CEM / EMS","Contract (Electronics) Manufacturer / Electronic Manufacturing Services — builds products for OEMs.","Ask if the work is turnkey or consigned."],
+["ODM – Original Design Manufacturer","Designs and builds products that other companies brand.","Buys like an OEM and a CM combined."],
+["Tier 1 vs Tier 2/3 CM","Tier 1 = global giants (Jabil, Flex, Foxconn) that often buy direct. Tier 2/3 = regional CMs.","Regional and smaller CMs rely on distribution — our sweet spot."],
+["Purchasing Manager","Runs purchasing, sets the AVL, often signs off on orders over $10k.","Hard to reach (100+ sales calls a day). Get in through buyers and engineers."],
+["Buyer / Commodity Buyer","Day-to-day contact who negotiates and places POs.","Swamped — “14 hours of work in an 8-hour day.” Be useful, fast and friendly. Once a buyer, always a buyer."],
+["Buyer / Planner","Buys parts and schedules production.","Knows upcoming builds and forecasts."],
+["Materials Manager","Owns inventory, shortages and excess for the company.","First to know about shortages; main contact for excess."],
+["Supply Chain Manager / Director","Owns sourcing strategy and the vendor base.","Talk total cost and fewer vendors, not unit price."],
+["Engineer (Design / Component)","Lifeblood of the company. Specifies parts and approves crosses.","Takes calls more than buyers. An engineer referral is gold."],
+["Program Manager","At a CM, owns the OEM relationship, costs and deadlines — the “cruise ship director.”","First to hear about problems; tells the OEM bad news."],
+["Sales Manager (at a CM)","Revenue driver, a lot like you.","Always answers the phone and can walk you to a stubborn buyer."],
+["Quality Manager","Approves suppliers’ quality systems.","Our certifications and in-house inspection lab matter here."],
+["Expediter","Tracks open orders for on-time delivery; often promoted to buyer.","Can cancel and re-place orders if we don’t respond."],
+["Gatekeeper","Receptionist or office manager who controls access.","Treat them like a decision maker — they hold the keys to the castle."],
+["Owner / CEO","At small companies, often an engineer who also buys.","Small companies can be a great fit — fast decisions."],
+["Champion","An insider who wants you to win.","Keep them informed and make them look good."],
+["Influencer vs Decision Maker","Influences the choice vs signs the PO.","Engineers influence; purchasing decides. Win both."]
+]},
+{id:"channels",name:"🏪 Distribution & Competition",intro:"Where customers buy today, and where we fit.",items:[
+["Franchise / Authorized Distributor","Contracted to sell specific brands — Arrow, Avnet, Digi-Key, Mouser, TTI, Future, Newark.","Our main competition on stock brands. They run out — that’s our opening."],
+["Catalog Distributor","Online broadline distributors like Digi-Key and Mouser.","Compete by stocking the brands they’re constantly out of."],
+["Independent Distributor","No franchise contracts. Sources globally and works for the customer, not the manufacturer.","What we are. Independence = best option without bias."],
+["Stocking Distributor","Holds inventory on its own shelf.","How we position: we hold your annual usage — we’re not a broker.",1],
+["Broker","Middleman with no stock; reputation for missed deliveries and fakes. “Brokers = pain.”","Never let a buyer file us here."],
+["Boutique / Specialty Distributor","Small distributor for niche brands.","Ask: “Which brands do you go to specialty distributors for?” — then offer to consolidate."],
+["Direct to Manufacturer","Large buyers purchasing straight from the factory.","Factories run out too. Who’s their backup?"],
+["Manufacturer’s Rep","Independent sales agency representing manufacturers in a territory.","Good source of market intel."],
+["Field Sales vs Inside Sales","Field reps visit customers and generate leads; inside sales handles phone, email and accounts.","Manufacturers hand smaller accounts to distribution."],
+["ECIA","Electronic Components Industry Association; maintains an authorized-distributor lookup.","Buyers check it. Know how to explain where we fit."],
+["Market Platforms","NetComponents, Octopart, FindChips — searchable inventory and pricing.","Where buyers check availability, and where we check the market."]
+]},
+{id:"quality",name:"🛡️ Quality & Compliance",intro:"Proof points. Use them when quality comes up — don’t open with them.",items:[
+["AS9120","Aerospace quality management standard for distributors.","Summon holds it. A strong proof point, not an opener."],
+["ISO 9001","General quality management standard.","Summon holds it. Baseline for most supplier surveys."],
+["AS9100","Aerospace standard for manufacturers (not distributors).","Customers may hold it; we hold AS9120."],
+["AS6081","Counterfeit avoidance standard for distributors.","Common in aerospace/defense supplier requirements."],
+["AS5553","Counterfeit avoidance standard for equipment makers.","Explains why their quality team asks so many questions."],
+["IDEA-STD-1010","Inspection standard widely used by independent distributors.","Reference for visual inspection."],
+["Visual Inspection","Magnified check of markings, leads, labels and packaging.","Every part goes through inspection before it ships."],
+["X-Ray Inspection","Compares internal die and lead frame to a known-good part.","We have an in-house Creative Electron X-ray system."],
+["XRF","X-ray fluorescence — checks plating composition (lead vs lead-free).","Confirms RoHS status."],
+["Decapsulation (Decap)","Removing the package to inspect die markings.","Advanced authenticity test."],
+["Golden Sample","Known-authentic reference part.","Used to compare suspect parts."],
+["Counterfeit","Fake, remarked or recycled parts sold as new.","Why buyers fear brokers."],
+["Blacktopping / Remarking","Sanding and re-coating a part to change its markings.","Classic counterfeit red flag."],
+["Physical Red Flags","Bent, crusty or tarnished leads; mixed date codes; miscounts.","Common reasons customers fire suppliers."],
+["GIDEP / ERAI","Databases reporting counterfeit and nonconforming parts.","Industry watchlists."],
+["ITAR","Export controls on defense items.","Know it exists; don’t lead with it."],
+["EAR / ECCN","Export controls on commercial and dual-use items; ECCN is the classification number.","Needed for some international shipments."],
+["DFARS Counterfeit Clauses","Defense contract rules on counterfeit prevention.","Appear on defense POs."],
+["ISO 13485","Medical device quality standard.","Medical customers hold it."],
+["IATF 16949","Automotive quality standard.","Automotive customers hold it."],
+["AEC-Q100 / Q200","Automotive qualification for ICs / passives.","Can’t cross to a non-AEC part on automotive builds."],
+["REACH","EU chemical safety regulation.","Often requested alongside RoHS."],
+["Conflict Minerals (CMRT)","Reporting on tin, tantalum, tungsten and gold sourcing.","Part of some supplier surveys."]
+]},
+{id:"verticals",name:"✈️ Industry Verticals",intro:"Language that changes by market.",items:[
+["Aerospace","Long lifecycles, strict documentation, AS9100 customers.","AS9120 matters here."],
+["AOG – Aircraft on Ground","Aircraft can’t fly until a part arrives.","Extreme urgency — price is secondary.",1],
+["Defense","Legacy programs, DMSMS, DFARS clauses.","Obsolete parts on old systems."],
+["CAGE Code","Commercial and Government Entity code identifying suppliers to the US government.","Needed for government work."],
+["Medical","FDA-regulated; ISO 13485; strict lot traceability.","Usually lead-free; changes need validation."],
+["Automotive","IATF 16949, AEC-Q parts, PPAP approval, just-in-time delivery.","Change is slow and formal."],
+["PPAP","Production Part Approval Process (automotive).","Part changes require re-approval."],
+["Industrial / IoT","Wide temperature ranges, long product lives, IP ratings.","Steady recurring demand — great stocking fit."],
+["IP Rating (IP67, IP68)","Dust and water protection rating.","Common on industrial connectors and enclosures."],
+["Transit / Rail","Long-lived equipment with many obsolete and legacy parts; public procurement processes.","In our ICP. Federally funded buys may carry Buy America requirements."]
+]},
+{id:"sales",name:"📈 Sales, Prospecting & Tools",intro:"How we work — and the terms inside Apollo, LinkedIn, Zoho and Loom.",items:[
+["Cold vs Warm Lead","No prior contact vs a referral, connection or past interaction.","LinkedIn research makes cold calls warmer."],
+["Nurture","Staying in front of contacts with no immediate need, across channels.","People forget you fast — follow up creatively all year."],
+["Cadence / Sequence","Planned series of calls, emails and LinkedIn touches.","Mix channels: email, call, text, LinkedIn, mail, Loom."],
+["Touch","Any single contact attempt.","Every DM at a core account gets 4+ touches."],
+["Core Accounts","Your focus list of ~30 accounts, each with 4+ decision makers.","3–4 contacts per week per account."],
+["Account Plan","Who builds their boards, what they buy, how they buy, and their big need.","Write one for every core account."],
+["Multi-threading","Building relationships with several people at one account.","Never rely on one buyer."],
+["Trigger Event","News signaling need: new buyer, expansion, new product, PDN.","Reach out within days of a trigger."],
+["Discovery","Questions that uncover pain, process and decision makers.","Listen more than you talk."],
+["Pain","The problem costing them money or sleep: shortages, lead times, cash flow.","Find the pain before pitching."],
+["Icebreaker","Personal opener before business.","“What’s it like working at…?”"],
+["Peel the Onion","Going deeper in the relationship over time.","“Many of my buyers I have a personal relationship with — I was hoping to peel the onion with you.”"],
+["Referral","Introduction to another contact.","Wrong person? Always ask who the right one is."],
+["Pipeline","All open opportunities and their stages.","Keep it honest — dead deals out."],
+["Hit Rate (Quote-to-Order)","Percent of quotes that become POs.","Low hit rate = qualify better or price smarter."],
+["GP$ per Human-Hour","Gross profit dollars earned per hour of work.","The north-star metric — spend time where GP$ is."],
+["Apollo: Sequence","Automated multi-step outreach cadence.","Personalize the first line every time."],
+["Apollo: Persona / Saved List","Saved filters for titles, industries and company size.","Build personas for buyers, engineers and materials managers."],
+["Apollo: Enrichment / Credits","Pulling emails and phone numbers; uses credits.","Enrich only contacts that fit the ICP."],
+["Apollo: Dialer","Built-in calling with logging.","Log every call outcome."],
+["Apollo: Intent Signals","Data showing a company researching relevant topics.","Prioritize accounts showing intent."],
+["Bounce Rate","Share of emails that fail to deliver.","High bounces hurt sending reputation — clean lists."],
+["LinkedIn Sales Navigator","LinkedIn’s prospecting tool with lead and account lists.","Map every DM at a target account."],
+["InMail","Paid direct message to a non-connection.","Short, specific, one question."],
+["Boolean Search","Search with AND / OR / NOT and quotes.","e.g. (“buyer” OR “purchasing”) AND (“PCBA” OR “electronics”)"],
+["Job Change Alert","Notification when a contact changes companies.","Once a buyer, always a buyer — follow them."],
+["Zoho Books: Estimate / Sales Order","Quote document / confirmed customer order.","Estimate becomes a sales order when the PO arrives."],
+["Zoho Books: Invoice / Bill / PO","Bill to customer / bill from supplier / our order to a supplier.","Match customer PO to sales order to supplier PO."],
+["Zoho Books: Credit Note","Credit issued to a customer (returns, adjustments).","Ties to RMAs."],
+["Zoho Cliq: Channel","Team chat room for a topic or deal.","Use channels for hot RFQs and shortages."],
+["Loom","Short recorded screen or face video.","Under 60 seconds: who you are, why them, one question."]
+]},
+{id:"components",name:"🔌 Component Types",intro:"What the parts actually do — enough to hold a conversation.",items:[
+["Resistor","Resists current flow. Rated in ohms (Ω) and watts. Used on PCBs.","Passive. Yageo, Vishay, KOA Speer, Panasonic, Bourns."],
+["Capacitor","Stores charge temporarily. Rated in µF/nF/pF and voltage. Types: ceramic (MLCC), electrolytic, tantalum, film.","Passive. Murata, TDK, Samsung, KEMET, AVX/Kyocera, Nichicon."],
+["Inductor","Stores energy in a magnetic field; a coil of wire around a core. Rated in µH/mH.","Passive. TDK, Murata, Würth, Bourns, Coilcraft."],
+["Diode","Lets current flow in one direction (anode to cathode). Includes LEDs, Zeners, TVS.","Active. Vishay, onsemi, Diodes Inc, Nexperia."],
+["Transistor / MOSFET","Switches or amplifies signals; three terminals (base/emitter/collector or gate/drain/source).","Active. Infineon, onsemi, Nexperia, Vishay."],
+["Integrated Circuit (IC)","Many components on one silicon chip.","Active. TI, ADI, NXP, ST, Microchip, Renesas."],
+["Microcontroller (MCU)","Small computer on a chip that controls devices.","Frequent allocation item."],
+["FPGA / Memory","Programmable logic / data storage chips.","High value, high counterfeit risk. AMD-Xilinx, Intel-Altera, Micron."],
+["Connector","Joins boards, wires and cables.","TE, Amphenol, Molex, JST, Hirose, Samtec."],
+["Relay","Electromechanical switch controlled by an electromagnet.","Omron, TE, Panasonic."],
+["Switch","Interrupts current. Types: SPST, SPDT, DPST, DPDT.","C&K, E-Switch, NKK."],
+["Transformer","Steps voltage up or down using two coils.","Power and isolation."],
+["Fuse / Circuit Breaker","Protects circuits from overcurrent or shorts; breakers reset.","Littelfuse, Eaton/Bussmann, Bel Fuse."],
+["Battery","Converts chemical to electrical energy.","Shipping rules apply to lithium batteries."],
+["Crystal / Oscillator","Provides a precise timing frequency.","Epson, Abracon, ECS, TXC."],
+["Power Supply / DC-DC Converter","Converts and regulates power.","Mean Well, Vicor, RECOM, XP Power, TDK-Lambda."]
+]}
+];
+
+const KEYWORDS = {id:"keywords",name:"🔥 Keywords to Listen For",groups:[
+{t:"🚨 Urgency (act now)",k:["Line down","Shortage","Hot part","Expedite","AOG","Dock date tomorrow","Can’t ship","Revenue not shipping","Production hold","Quick turn","Stuck in customs"]},
+{t:"🎣 Buying signals",k:["Need a quote","Looking for","Alternate for","Cross reference","Second source","Cost reduction","New project","Ramp up","Annual usage","Blanket order","Last time buy"]},
+{t:"💡 Opportunity",k:["Obsolete","EOL","Hard to find","Long lead time","Allocation","NPI","Rev change","New buyer","Older technology","Excess inventory","Boutique distributor","Funky manufacturer"]},
+{t:"🚫 Objection phrases",k:["Authorized only","Franchise only","No brokers","Reducing vendors","All set","Under contract","Send me an email","Price is too high","We go direct"]},
+{t:"🔍 LinkedIn / Apollo titles",k:["Buyer","Commodity Buyer","Buyer/Planner","Purchasing Manager","Materials Manager","Supply Chain Manager","Strategic Sourcing","Component Engineer","Hardware Engineer","Program Manager","Operations Manager","Owner"]},
+{t:"📉 Why customers switch suppliers",k:["Price creeping up","No innovation","Annoying or pushy rep","Poor follow-up","Old date codes","Bad leads / miscounts","Counterfeits","Vendor reduction","Won’t meet new terms","New buyer or rep","Wants online ordering","Can’t find hard parts"]}
+]};
+
+const OBJ = {id:"objections",name:"🛡️ Objections & Discovery",intro:"Short, honest responses. Acknowledge, then find the gap.",items:[
+["“We only buy from authorized / franchise.”","Makes sense for parts on Arrow’s or Digi-Key’s shelf.","“Which brands do they keep running out of? That’s what we stock — we can hold your annual usage on those.”"],
+["“We don’t buy from brokers.”","Neither would I. Separate us from the garage operation.","“We’re a stocking distributor — inventory on our shelf, AS9120 and ISO 9001, in-house inspection and X-ray.”"],
+["“We’re reducing our vendor base.”","Agree, then offer consolidation.","“Which specialty distributors could we replace? One vendor for all your hard-to-get brands.”"],
+["“Send me an email.”","Turn the brush-off into a next step.","“Happy to — would our line card or a quick check of your shortage list be more useful?”"],
+["“We’re all set.”","Plant a seed for the next shortage.","“Great. When Digi-Key shows 20-week lead times, who do you call?”"],
+["“We have corporate agreements.”","Agreements cover standard parts, not gaps.","“Who handles the parts outside the agreement?”"],
+["“Your price is too high.”","Shift to total cost.","“What does a line-down day cost you? We price for certainty — stock on hand, on time.”"],
+["“We need CoCs / full traceability.”","Answer it — don’t lead with it.","“Understood. We source with documentation where available and every part goes through our inspection lab.”"],
+["Discovery: Who buys?","Who buys your components, and who builds your boards?","Turnkey vs consigned tells you who to call."],
+["Discovery: How do you buy?","Forecast/blanket orders or job-by-job POs?","Forecast buyers fit stocking programs."],
+["Discovery: MRP timing","Do you use an MRP? How often does it run, and what day?","Call right after it runs."],
+["Discovery: Shortages","Do you send out a shortage list when you’re ready to quote?","Ask to be on the distribution."],
+["Discovery: Problem brands","Which brands do you struggle to get from Digi-Key, Mouser or Arrow?","Your stocking program pitch starts here."],
+["Discovery: Vendor setup","What does it take to become a vendor?","Get the packet started."],
+["Discovery: Beyond price","What makes you give a vendor business besides price?","Learn their real buying criteria."],
+["Discovery: Terms & shipping","How important are terms? Do you take discount terms? Shipping costs?","Terms and free shipping can beat price."],
+["Discovery: Date codes","How important are recent date codes?","Sets quality expectations up front."],
+["Discovery: Excess","Who handles your excess inventory?","Opens buy-back conversations."],
+["Discovery: Lead times","How do you handle hard-to-find parts and long lead times?","Find their current backup — and its gaps."],
+["Discovery: Communication","Do you prefer email, phone, text, IM or video?","Then use that channel."]
+]};
+
+const ALL = [...DATA.slice(0,7), OBJ, ...DATA.slice(7), KEYWORDS];
+let active = "all";
+const $ = s=>document.querySelector(s);
+const esc = s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function hl(s,q){ s=esc(s); if(!q) return s; const r=new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi"); return s.replace(r,"<mark>$1</mark>"); }
+
+function chips(){
+  const c=$("#chips"); c.innerHTML="";
+  [{id:"all",name:"All"},...ALL].forEach(s=>{
+    const b=document.createElement("button");
+    b.className="chip"+(active===s.id?" active":"");
+    b.textContent=s.name; b.onclick=()=>{active=s.id;chips();render();};
+    c.appendChild(b);
+  });
+}
+
+function render(){
+  const q=$("#search").value.trim().toLowerCase();
+  const m=$("#main"); let html="", count=0;
+  ALL.forEach(s=>{
+    if(active!=="all" && active!==s.id && !q) return;
+    if(s.groups){
+      let g="";
+      s.groups.forEach(gr=>{
+        const ks=gr.k.filter(k=>!q||k.toLowerCase().includes(q)||gr.t.toLowerCase().includes(q));
+        if(ks.length){count+=ks.length; g+=`<div class="taggroup"><h3>${gr.t}</h3>${ks.map(k=>`<span class="tag">${hl(k,q)}</span>`).join("")}</div>`;}
+      });
+      if(g) html+=`<section><h2>${s.name}</h2>${g}</section>`;
+      return;
+    }
+    const items=s.items.filter(i=>!q||i.slice(0,3).join(" ").toLowerCase().includes(q));
+    if(!items.length) return;
+    count+=items.length;
+    html+=`<section><h2>${s.name}</h2>${q?"":`<p class="intro">${s.intro}</p>`}<div class="grid">${items.map(i=>`
+      <div class="card${i[3]?" hot":""}"><div class="term">${hl(i[0],q)}${i[3]?'<span class="badge">HOT</span>':""}</div>
+      <div class="def">${hl(i[1],q)}</div>${i[2]?`<div class="use">${hl(i[2],q)}</div>`:""}</div>`).join("")}</div></section>`;
+  });
+  m.innerHTML = html || `<div class="empty">No matches for “${esc(q)}”. Try a shorter word.</div>`;
+  $("#meta").textContent = q ? `${count} matches across all sections` : `${count} entries shown`;
+}
+
+$("#search").addEventListener("input",render);
+$("#printBtn").onclick=()=>{ active="all"; $("#search").value=""; chips(); render(); setTimeout(()=>window.print(),100); };
+window.addEventListener("beforeprint",()=>{ if(active!=="all"||$("#search").value){active="all";$("#search").value="";chips();render();} });
+chips(); render();
+</script>
+</body>
+</html>
