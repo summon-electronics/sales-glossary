@@ -22,15 +22,28 @@ function notify(message, error=false) {
   const status=document.querySelector("#sharedStatus");
   status.textContent=message; status.classList.toggle("error",error);
 }
-async function api(method, passcode, term, id) {
-  const response=await fetch(ENDPOINT+(id?"&id="+encodeURIComponent(id):""), {
+async function api(method, passcode, terms) {
+  const response=await fetch(ENDPOINT, {
     method, cache:"no-store",
     headers:{"content-type":"application/json",...(passcode?{"x-glossary-key":passcode}:{})},
-    ...(term?{body:JSON.stringify(term)}:{})
+    ...(terms?{body:JSON.stringify(terms)}:{})
   });
-  const result=await response.json().catch(()=>({error:"Shared editing is unavailable. Please check the deployment."}));
-  if(!response.ok) throw new Error(result.error || "Unable to complete the request.");
-  return result;
+  if(!response.ok) {
+    const errors={401:"Incorrect team passcode.",413:"The shared term list is too large.",400:"Invalid shared term data."};
+    throw new Error(errors[response.status] || "Shared editing is unavailable. Please check the deployment.");
+  }
+  if(method==="GET") {
+    const result=await response.json();
+    if(!Array.isArray(result)) throw new Error("Invalid shared term list.");
+    return result;
+  }
+  return response.text();
+}
+async function latestTerms() {
+  const terms=await api("GET");
+  const merged=new Map(terms.filter(t=>t && !deletedTerms.has(t.id)).map(t=>[t.id,t]));
+  for(const [id,term] of pendingTerms) if(!deletedTerms.has(id)) merged.set(id,term);
+  return [...merged.values()];
 }
 async function refreshShared() {
   try {
@@ -63,7 +76,11 @@ form.addEventListener("submit",async event=>{
   if(!term.term || !term.definition){document.querySelector("#formError").textContent="Enter a term and definition.";return;}
   saving=true;submit.disabled=true;submit.textContent="Saving…";document.querySelector("#formError").textContent="";
   try {
-    const saved=await api("POST",passcode.value,term);
+    const saved={...term,id:crypto.randomUUID(),createdAt:new Date().toISOString()};
+    const latest=await latestTerms();
+    const updated=[...latest,saved];
+    await api("PUT",passcode.value,updated);
+    sharedTerms=updated.filter(t=>t.id!==saved.id);
     pendingTerms.set(saved.id,saved);sharedTerms.push(saved);
     active="all";document.querySelector("#search").value="";chips();render();
     form.reset();dialog.close();notify("Term saved. Other devices may need about a minute to see it.");
@@ -77,7 +94,8 @@ document.querySelector("#main").addEventListener("click",async event=>{
   const passcode=prompt("Enter the team passcode to delete this term:");if(!passcode)return;
   saving=true;button.disabled=true;
   try {
-    await api("DELETE",passcode,null,id);deletedTerms.add(id);pendingTerms.delete(id);sharedTerms=sharedTerms.filter(t=>t.id!==id);render();notify("Term deleted. Other devices may need about a minute to update.");
+    const latest=await latestTerms();
+    await api("PUT",passcode,latest.filter(t=>t.id!==id));deletedTerms.add(id);pendingTerms.delete(id);sharedTerms=sharedTerms.filter(t=>t.id!==id);render();notify("Term deleted. Other devices may need about a minute to update.");
   }catch(error){notify(error.message,true);button.disabled=false;}
   finally{saving=false;}
 });
