@@ -375,7 +375,7 @@ const OBJ = {id:"objections",name:"🛡️ Objections & Discovery",intro:"Short,
 const ALL = [...DATA.slice(0,7), OBJ, ...DATA.slice(7), KEYWORDS];
 let active = "all";
 const $ = s=>document.querySelector(s);
-const esc = s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const esc = s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function hl(s,q){ s=esc(s); if(!q) return s; const r=new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi"); return s.replace(r,"<mark>$1</mark>"); }
 
 function chips(){
@@ -406,7 +406,7 @@ function render(){
     if(!items.length) return;
     count+=items.length;
     html+=`<section><h2>${s.name}</h2>${q?"":`<p class="intro">${s.intro}</p>`}<div class="grid">${items.map(i=>`
-      <div class="card${i[3]?" hot":""}">${i[4]?`<button class="delete-term" data-delete-term="${i[4]}" aria-label="Delete team term" title="Delete team term">✕</button>`:""}<div class="term">${hl(i[0],q)}${i[3]?'<span class="badge">HOT</span>':""}</div>
+      <div class="card${i[3]?" hot":""}">${i[4]?`<button class="delete-term" data-delete-term="${esc(String(i[4]))}" aria-label="Delete team term" title="Delete team term">✕</button>`:""}<div class="term">${hl(i[0],q)}${i[3]?'<span class="badge">HOT</span>':""}</div>
       <div class="def">${hl(i[1],q)}</div>${i[2]?`<div class="use">${hl(i[2],q)}</div>`:""}</div>`).join("")}</div></section>`;
   });
   m.innerHTML = html || `<div class="empty">No matches for “${esc(q)}”. Try a shorter word.</div>`;

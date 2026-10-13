@@ -10,7 +10,7 @@ In the Pages project's Production settings, bind the KV namespace glossary as GL
 
 ## Shared editing
 
-The original glossary is in index.html. shared-terms.js adds team editing. functions/api/kv.js provides public GET and passcode-protected PUT at /api/kv?key=glossary-custom-terms. The x-glossary-key header is checked against ADD_PASSCODE on the server. Added terms are stored as one JSON array at glossary-custom-terms, using John's exact functions/api/kv.js sample. The frontend loads the current list, applies the addition/deletion, and PUTs the updated list. Concurrent list saves can overwrite one another, as with the original sample. No team terms existed at the time of the switch.
+The original glossary is in index.html. shared-terms.js adds team editing. functions/api/kv.js provides public GET and passcode-protected PUT at /api/kv?key=glossary-custom-terms. The x-glossary-key header is checked against ADD_PASSCODE on the server. Added terms are stored as one JSON array at glossary-custom-terms, using John's exact functions/api/kv.js sample. The frontend loads the current list, applies the addition/deletion, and PUTs the updated list. KV reads may be stale for about a minute, so saves within that window can overwrite one another even when they are not simultaneous, as with the original sample. No team terms existed at the time of the switch.
 
 Only team-added terms have delete buttons. To change original entries, edit index.html. User text is escaped before rendering. The passcode is not saved in browser storage. Cloudflare KV is eventually consistent, so remote devices may take around a minute to show additions/deletions. Open tabs refresh shared data every 30 seconds.
 

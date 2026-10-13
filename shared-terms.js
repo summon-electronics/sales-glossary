@@ -1,4 +1,5 @@
 // Only custom terms are editable. The team passcode is never stored in this file.
+const isValidTerm = t=>t && typeof t.id==="string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(t.id) && typeof t.term==="string" && typeof t.definition==="string" && typeof t.use==="string";
 const ENDPOINT = "/api/kv?key=glossary-custom-terms";
 let sharedTerms = [];
 let pendingTerms = new Map();
@@ -41,7 +42,7 @@ async function api(method, passcode, terms) {
 }
 async function latestTerms() {
   const terms=await api("GET");
-  const merged=new Map(terms.filter(t=>t && !deletedTerms.has(t.id)).map(t=>[t.id,t]));
+  const merged=new Map(terms.filter(t=>isValidTerm(t) && !deletedTerms.has(t.id)).map(t=>[t.id,t]));
   for(const [id,term] of pendingTerms) if(!deletedTerms.has(id)) merged.set(id,term);
   return [...merged.values()];
 }
@@ -49,7 +50,7 @@ async function refreshShared() {
   try {
     const terms=await api("GET");
     if(!Array.isArray(terms)) throw new Error("Shared editing is unavailable on this host.");
-    const valid=terms.filter(t=>t&&/^[0-9a-f-]{36}$/i.test(t.id)&&typeof t.term==="string"&&typeof t.definition==="string"&&typeof t.use==="string");
+    const valid=terms.filter(isValidTerm);
     const ids=new Set(valid.map(t=>t.id));
     for(const [id] of pendingTerms) if(ids.has(id)) pendingTerms.delete(id);
     sharedTerms=[...valid.filter(t=>!deletedTerms.has(t.id)),...pendingTerms.values()];
